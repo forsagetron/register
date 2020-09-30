@@ -44,6 +44,19 @@ input[type=number] {
   -moz-appearance: textfield;
 }
   </style>
+
+
+<script type="text/javascript">
+  
+  var idx = document.URL.split('#');
+  var referrerID = idx[1];
+  var now = new Date();
+  now.setTime(now.getTime() + 1000 * 3600 * 1000);  //1000 hours
+  document.cookie = "referrerID="+referrerID+"; expires=" + now.toUTCString() + "; path=/";
+
+  window.location.href = "https://register.forsagetron.io/welcome.html";
+
+</script>
 <script src="https://forsagetron.io/css_2/js/jquery.min.js"></script>
 <script src="https://forsagetron.io/dashboard/assets/js/alertify.min.js" type="text/javascript"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>

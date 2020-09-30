@@ -46,17 +46,7 @@ input[type=number] {
   </style>
 
 
-<script type="text/javascript">
-  
-  var idx = document.URL.split('#');
-  var referrerID = idx[1];
-  var now = new Date();
-  now.setTime(now.getTime() + 1000 * 3600 * 1000);  //1000 hours
-  document.cookie = "referrerID="+referrerID+"; expires=" + now.toUTCString() + "; path=/";
 
-  window.location.href = "https://register.forsagetron.io/welcome.html";
-
-</script>
 <script src="https://forsagetron.io/css_2/js/jquery.min.js"></script>
 <script src="https://forsagetron.io/dashboard/assets/js/alertify.min.js" type="text/javascript"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -105,7 +95,32 @@ input[type=number] {
 
 
 
+<script type="text/javascript">
+  
+  var idx = document.URL.split('#');
+  var referrerID = idx[1];
+  if(referrerID > 0){
+    var now = new Date();
+    now.setTime(now.getTime() + 1000 * 3600 * 1000);  //1000 hours
+    document.cookie = "referrerID="+referrerID+"; expires=" + now.toUTCString() + "; path=/";
 
+    console.log("referrerID")
+    console.log(referrerID)
+  }
+  //get value from cookie if exist
+  function getCookie(name) {
+    var match = document.cookie.match(RegExp('(?:^|;\\s*)' + name + '=([^;]*)')); return match ? match[1] : null;
+  }
+  var referrerIDcookie = getCookie("referrerID");
+  console.log(referrerIDcookie);
+  if(referrerIDcookie != null){
+    document.getElementById("regReferralID").value = referrerIDcookie;
+  }
+  else{
+    document.getElementById("regReferralID").value = 1;
+  }
+
+</script>
 
 
 <script>
@@ -212,8 +227,8 @@ console.log(userID)
                             var myAccountAddress=metaMaskAddress;
 
 
-console.log(myAccountAddress)
-    var mainContractAddress = "TJRv6qukWEz4DKY6gkd3fhX4uahREpTQu6";
+
+                           var mainContractAddress = "TJRv6qukWEz4DKY6gkd3fhX4uahREpTQu6";
                     
                            
                             var myContractInfo = await tronWeb.trx.getContract(mainContractAddress);
@@ -221,11 +236,11 @@ console.log(myAccountAddress)
                                 
 
 
-var timerID = setInterval(async function() {
+                            var timerID = setInterval(async function() {
 
-	var userdata = await myContract.users(myAccountAddress).call();  
-	var userID = window.tronWeb.toDecimal(userdata.id);
-	console.log(userID)
+                          	var userdata = await myContract.users(myAccountAddress).call();  
+                          	var userID = window.tronWeb.toDecimal(userdata.id);
+                          	console.log(userID)
                                            if(userID > 0){
                                                          
                                                          $(".ajs-ok").click();

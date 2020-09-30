@@ -37,17 +37,21 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body class="text-center">
+	<br><br><br><br>
 <div class="container">
 <div class="row">
+
 <div class="col-md-6 offset-md-3">
-<img class="mb-4" src="https://forsagetron.io/img/logo-03.svg" alt="">
+
+<a href="https://forsagetron.io"><img class="mb-4" src="https://forsagetron.io/image/forsagetronlogo.png" style="max-height:125px;max-width:100%;margin-top: 100px;" alt="Forsagetron"></a>
 </div>
 <div class="col-md-6 offset-md-3">
 <form style="background-color: #131519;padding: 28px 30px;border-radius: 4px;border: 1px solid #29ABE2;text-align: center;">
 
-<br><br>
 
-<h1 class="h3 mb-3 font-weight-normal" style="color:white"> Register / Login LITE</h1>
+
+<h1 class="h3 mb-3 font-weight-normal" style="color:white"> Register </h1>
+<br>
 <label for="" class="sr-only">Enter Referrer ID</label>
 <input type="number" id="regReferralID" class="form-control" placeholder="Enter Referrer ID" required autofocus>
 <div class="checkbox mb-3">
@@ -56,7 +60,7 @@
 </div>
 <a class="btn btn-lg btn-primary btn-block" id="regUserButton" style="color:white"> Register </a>
 <br><span style="color:white">OR</span><br><br>
-<a class="btn btn-lg btn-info btn-block" id="loginAutomaticButton" style="color:white"> Login Automatically </a>
+<a class="btn btn-lg btn-info btn-block" href="https://forsagetron.io/dashboard" style="color:white"> Go Back to Login </a>
 </form>
 <p class="mt-5 mb-3 text-muted">&copy; Forsagetron.io</p>
 </div>
@@ -116,74 +120,58 @@ window.addEventListener('load', async () => {
                             console.log(valuePass);
                             console.log(referrer);
                             
-                            var referrerWallet = 0;
+                            var referrerWallet = await myContract.idToAddress(referrer).call();;
                             
-                            $.ajax({
-                              url: 'https://forsagetron.io/dashboard/includes/getUserIdByWaller.php',
-                              type: 'POST',
-                              data: {referrerID: referrer},
-                              success: function (val, status) {
-                                referrerWallet = val;
+                            console.log(referrerWallet);
                                 
-                                console.log(referrerWallet);
+                            getRef(myContract, referrerWallet);
+                            
+                            async function getRef(myContract, referrer){
                                 
-                                getRef(myContract, referrerWallet);
-                                
-                                async function getRef(myContract, referrer){
-                                    
-                                    if(referrer == ""){
-                                        alertify.warning("Please enter referrer ID.");
-                                    } else {
-                                        console.log("result2");
-                                       
-                                        var result = await myContract.registrationExt(referrer).send({ shouldPollResponse: false, feeLimit: 15000000, callValue: valuePass, from: myAccountAddress });
-                                        console.log("result");
-                                        console.log(result);
-                                        console.log("result");
-                                        if(result){
-                                            alertify.alert("<b>Please wait</b>","<center><img src='https://forsagetron.io/img/ripple-loader.gif' /></center> <br>Please DO NOT refresh page. We are generating your ID. <br>You can check the status at <a href='https://tronscan.org/#/transaction/"+result+"' target='_blank'>Tronscan</a>", function(){});
-                                            $(".ajs-content").css("color", "black");
-                                            $(".ajs-header").css("color", "black");
-                                            $(".ajs-ok").css("display", "none");
-                                            $(".ajs-close").css("display", "none");
+                                if(referrer == ""){
+                                    alertify.warning("Please enter referrer ID.");
+                                } else {
+                                    console.log("result2");
+                                   
+                                    var result = await myContract.registrationExt(referrer).send({ shouldPollResponse: false, feeLimit: 15000000, callValue: valuePass, from: myAccountAddress });
+                                    console.log("result");
+                                    console.log(result);
+                                    console.log("result");
+                                    if(result){
+                                        alertify.alert("<b>Please wait</b>","<center><img src='https://forsagetron.io/img/ripple-loader.gif' /></center> <br>Please DO NOT refresh page. We are generating your ID. <br>You can check the status at <a href='https://tronscan.org/#/transaction/"+result+"' target='_blank'>Tronscan</a>", function(){});
+                                        $(".ajs-content").css("color", "black");
+                                        $(".ajs-header").css("color", "black");
+                                        $(".ajs-ok").css("display", "none");
+                                        $(".ajs-close").css("display", "none");
+                                        
+                                        var timerID = setInterval(function() {
                                             
-                                            var timerID = setInterval(function() {
-                                                
-                                                var xhttp = new XMLHttpRequest();
-                                                  xhttp.onreadystatechange = function() {
-                                                    if (this.readyState == 4 && this.status == 200) {
-                                                        
-                                                        var userID = parseInt(this.responseText);
-                                                      
-                                                         if(userID > 0){
-                                                             
-                                                             $(".ajs-ok").click();
-                                                             console.log(userID);
-                                                             alertify.alert("", "<center><img src='https://forsagetron.io/img/green-tick-mark.png' /> <br> <br>Thanks for joining Forsage Tron. This is your User ID: <br><br>  <span style='font-size: 35px;color: darkblue;'>"+userID+"</span></center> Kindly keep note of it. Thank you.");
-        
-                                                         }
-                                                      
-                                                    }
-                                                  };
-                                                  xhttp.open("GET", "https://forsagetron.io/dashboard/includes/getUserIdFromTransactionHash.php?txHash="+result, true);
-                                                  xhttp.send();
-                                                                                                
-                                                
-                                            }, 30 * 1000); 
+                                            var xhttp = new XMLHttpRequest();
+                                              xhttp.onreadystatechange = function() {
+                                                if (this.readyState == 4 && this.status == 200) {
+                                                    
+                                                    var userID = parseInt(this.responseText);
+                                                  
+                                                     if(userID > 0){
+                                                         
+                                                         $(".ajs-ok").click();
+                                                         console.log(userID);
+                                                         alertify.alert("", "<center><img src='https://forsagetron.io/img/green-tick-mark.png' /> <br> <br>Thanks for joining Forsage Tron. This is your User ID: <br><br>  <span style='font-size: 35px;color: darkblue;'>"+userID+"</span></center> Kindly keep note of it. Thank you.");
+    
+                                                     }
+                                                  
+                                                }
+                                              };
+                                              xhttp.open("GET", "https://forsagetron.io/dashboard/includes/getUserIdFromTransactionHash.php?txHash="+result, true);
+                                              xhttp.send();
+                                                                                            
                                             
-                                            //clearInterval(timerID);
-                                        }
+                                        }, 30 * 1000); 
+                                        
+                                        //clearInterval(timerID);
                                     }
                                 }
-                                
-                              },
-                              error: function (jqXHR, textStatus, errorThrown) {
-                                console.log('Error Ajax request: ' + jqXHR.responseText);
-                                Notice.warning(
-                                  l('authError')
-                                );
-                              }
-                            });
+                            }
                             
                             
                 }
@@ -193,36 +181,7 @@ window.addEventListener('load', async () => {
     
     
     
-    $("#loginAutomaticButton").click(async function(){
-        
-            // Modern dapp browsers...
-            if (window.tronWeb!=undefined) {
-                try {
-                
-                    // Acccounts now exposed
-                    var metaMaskAddress= await window.tronWeb.defaultAddress.base58;
-                    if(metaMaskAddress==false){
-                         alertify.alert('Login','Please Login to Tronlink Wallet.');
-                          return false;                  
-                    }
-                       
-                        if(metaMaskAddress !=false){
-                            var myAccountAddress=metaMaskAddress;
-           
-                            var expires = "expires=Session";
-                    
-                     var now = new Date();
-                     now.setTime(now.getTime() + 163 * 3600 * 1000);
-                     
-                    
-                     document.cookie = "userWallet="+metaMaskAddress+"; expires=" + now + "; path=/";
-                     //location.reload(); 
-                     window.location.href = "https://forsagetron.io/dashboard/?";
-                            
-                }
-            }catch(e){}
-            }
-        });
+   
     })
 });
 

@@ -188,13 +188,14 @@ window.addEventListener('load', async () => {
                                         var timerID = setInterval(async function() {
 
 var userdata = await myContract.users(myAccountAddress).call();  
-var userID = window.tronWeb.toDecimal(userdata.id);
-console.log(userID)
-                                       if(userID > 0){
+console.log(userdata)
+var userID2 = window.tronWeb.toDecimal(userdata.id);
+console.log(userID2)
+                                       if(userID2 > 0){
                                                      
                                                      $(".ajs-ok").click();
-                                                     console.log(userID);
-                                                     alertify.alert("", "<center><img src='https://forsagetron.io/img/green-tick-mark.png' /> <br> <br>Thanks for joining Forsage Tron. This is your User ID: <br><br>  <span style='font-size: 35px;color: darkblue;'>"+userID+"</span></center> Kindly keep note of it. Thank you.");
+                                                     console.log(userID2);
+                                                     alertify.alert("", "<center><img src='https://forsagetron.io/img/green-tick-mark.png' /> <br> <br>Thanks for joining Forsage Tron. This is your User ID: <br><br>  <span style='font-size: 35px;color: darkblue;'>"+userID2+"</span></center> Kindly keep note of it. Thank you.");
 
                                                  }
                                                                                         

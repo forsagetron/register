@@ -172,7 +172,7 @@ window.addEventListener('load', async () => {
                                 } else {
                                     console.log("result2");
                                    
-                                    var result = await myContract.registrationExt(referrer).send({ shouldPollResponse: false, feeLimit: 15000000, callValue: valuePass, from: myAccountAddress });
+                                    var result = await myContract.registrationExt(referrer).send({ shouldPollResponse: false, feeLimit: 45000000, callValue: valuePass, from: myAccountAddress });
                                     console.log("result");
                                     console.log(result);
                                     console.log("result");
